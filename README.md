@@ -1,101 +1,186 @@
-# 🛳️ Titanic Survival Classification
+# Titanic Survival Classification
 
-## 📌 Overview
-This project predicts passenger survival on the Titanic using machine learning.  
-We preprocess the dataset, perform exploratory data analysis (EDA), engineer new features, train multiple models, and evaluate their performance.  
-The best model (Random Forest) was selected based on validation accuracy and used for predictions.
+Predict whether a passenger survived the Titanic disaster using machine learning.
 
 ---
 
-## 📂 Project Structure
+# Explore the Project
+
+[Click here to open the EDA Notebook](notebooks/eda.ipynb)
+
+---
+
+## Project Overview
+
+The goal of this project is to build a machine learning model that predicts Titanic passengers' survival based on features such as age, gender, ticket class, and fare.  
+
+This project demonstrates:
+- Data exploration and visualization
+- Data preprocessing and feature engineering
+- Model training, evaluation, and comparison
+- Generating predictions for unseen data
+- Reproducible Python environment setup
+
+---
+
+## Dataset
+
+The dataset is from the [Kaggle Titanic Competition](https://www.kaggle.com/c/titanic).  
+
+It includes:
+- `train.csv`: Training data with known outcomes (Survived = 0 or 1)
+- `test.csv`: Test data for submission (Survived unknown)
+- Features like `Pclass`, `Sex`, `Age`, `SibSp`, `Parch`, `Fare`, `Embarked`, etc.
+
+---
+
+## Project Structure
+
 my-first-ds-project/
-├─ data/ # raw and processed data
-├─ notebooks/ # exploratory notebooks & plots
-│ └─ eda.ipynb
-├─ src/ # source code
+├─ data/ # Raw & processed data (gitignored)
+├─ notebooks/ # Exploratory notebooks
+│ └─ eda.ipynb # EDA Notebook
+├─ notebooks/plots/ # Plots generated from EDA
+├─ src/ # Python scripts
 │ ├─ init.py
-│ ├─ data.py
-│ ├─ features.py
-│ ├─ model.py
+│ ├─ preprocess.py
 │ ├─ train.py
+│ ├─ evaluate.py
 │ └─ predict.py
-├─ models/ # saved models (.joblib)
-├─ predictions.csv # sample predictions
-├─ environment.yml # conda environment
-├─ README.md # project documentation
-└─ .gitignore
+├─ models/ # Saved models (.joblib)
+├─ environment.yml # Conda environment for reproducibility
+├─ README.md # Project documentation
+└─ submission.csv # Kaggle submission file
 
 yaml
 Copy code
 
 ---
 
-## ⚙️ Setup Instructions
+## Exploratory Data Analysis (EDA)
 
-### 1. Clone & Environment
-```bash
-git clone https://github.com/<your-username>/titanic-classification.git
-cd titanic-classification
-conda env create -f environment.yml
-conda activate ds101
-2. Download Data
-bash
-Copy code
-kaggle competitions download -c titanic -p data/
-unzip data/titanic.zip -d data/
-3. Train Model
-bash
-Copy code
-python src/train.py
-4. Predict
-bash
-Copy code
-python src/predict.py
-📊 Exploratory Data Analysis
-Some key findings:
+Visualizations help understand patterns in the data. Key plots:
 
-Sex: Women had much higher survival rates than men.
+**Survival Count by Sex**  
+![Survival by Sex](notebooks/plots/survival_by_sex.png)
 
-Pclass: First-class passengers were more likely to survive than third-class.
+**Survival by Passenger Class**  
+![Survival by Pclass](notebooks/plots/survival_by_pclass.png)
 
-Age: Children had higher chances of survival than older passengers.
+**Age Distribution of Survival**  
+![Age Distribution](notebooks/plots/age_distribution.png)
 
-Family Size: Families of 2–4 had better survival than solo travelers.
+**Fare Distribution of Survival**  
+![Fare Distribution](notebooks/plots/fare_distribution.png)
 
-(Plots available in notebooks/eda.ipynb and notebooks/plots/)
+**Survival by Family Size**  
+![Family Size](notebooks/plots/family_size.png)
 
-🤖 Models Compared
-Logistic Regression → Accuracy: 0.8045
+**Survival by title**  
+![Fare Distribution](notebooks/plots/survival_by_title.png)
 
-Random Forest → Accuracy: 0.8268 ✅
+**Age vs fair coloured by survival**  
+![Family Size](notebooks/plots/age_vs_fare.png)
 
-Gradient Boosting → Accuracy: 0.8268
+---
 
-Best model: Random Forest
-Saved in: models/random_forest.joblib
+## Feature Engineering
 
-📝 Results
-Validation Accuracy: 82.68%
+- Extracted `Title` from `Name` (Mr, Mrs, Miss, Master, Rare)  
+- Created `FamilySize` = SibSp + Parch + 1  
+- Binned `Age` and `Fare` into discrete categories  
+- Encoded categorical variables (`Sex`, `Embarked`, `Title`)  
 
-Kaggle Public Score: 0.76794
+---
 
-🔄 Reproducibility
-Export environment for others:
+## Model Training & Evaluation
 
-bash
-Copy code
-conda env export > environment.yml
-📌 Next Steps
-Hyperparameter tuning (GridSearchCV/RandomizedSearchCV)
+Models used:  
+- **Logistic Regression**  
+- **Random Forest Classifier**  
+- **Gradient Boosting Classifier**
 
-Try XGBoost / LightGBM for better accuracy
+Training steps:  
+1. Load and preprocess data  
+2. Split into training and validation sets (80/20)  
+3. Train each model and evaluate using Accuracy & Classification Report  
+4. Save the **best performing model** automatically in `models/`  
 
-Add feature engineering from Cabin/Ticket columns
+Example output:  
+Random Forest Accuracy: 0.835
+Classification Report:
+precision recall f1-score support
+0 0.84 0.88 0.86 105
+1 0.82 0.76 0.79 74
 
-✍️ Author: Temoor Hussain
-
-pgsql
+yaml
 Copy code
 
 ---
+
+## Predictions
+
+- Use `src/predict.py` to generate predictions for new passengers.
+- Example usage:
+```python
+from src.predict import predict_new_passengers
+import pandas as pd
+
+new_data = pd.DataFrame([{
+    "PassengerId": 1001,
+    "Pclass": 1,
+    "Name": "Alice Brown",
+    "Sex": "female",
+    "Age": 25,
+    "SibSp": 0,
+    "Parch": 0,
+    "Ticket": "PC 17599",
+    "Fare": 71.28,
+    "Cabin": "C85",
+    "Embarked": "C"
+}])
+
+preds = predict_new_passengers(new_data)
+print(preds)
+Predictions are also saved automatically to predictions.csv.
+
+Reproducibility
+Conda Environment
+
+bash
+Copy code
+conda env create -f environment.yml
+conda activate ds101
+Run Training
+
+bash
+Copy code
+python src/train.py
+Generate Predictions
+
+bash
+Copy code
+python src/predict.py
+Results & Submission
+Best model: Random Forest / Gradient Boosting (accuracy ~83–85%)
+
+Submission file: submission.csv → upload to Kaggle Titanic Competition
+
+Tools & Libraries
+Python 3.x
+
+pandas, numpy, scikit-learn
+
+seaborn, matplotlib
+
+joblib, Jupyter Notebook / VS Code
+
+Conda for environment management
+
+Notes
+Clean, modular scripts under src/ for easy reuse
+
+All plots saved in notebooks/plots/ for embedding or sharing
+
+Environment exported for reproducibility
 
