@@ -129,13 +129,13 @@ The EDA notebook reveals key insights about survival patterns:
 <td width="50%">
 
 **Survival by Gender**  
-![Survival by Sex](plots/survival_by_sex.png)
+![Survival by Sex](notebooks/plots/survival_by_sex.png)
 
 </td>
 <td width="50%">
 
 **Survival by Passenger Class**  
-![Survival by Pclass](plots/survival_by_pclass.png)
+![Survival by Pclass](notebooks/plots/survival_by_pclass.png)
 
 </td>
 </tr>
@@ -143,13 +143,13 @@ The EDA notebook reveals key insights about survival patterns:
 <td width="50%">
 
 **Age Distribution**  
-![Age Distribution](plots/age_distribution.png)
+![Age Distribution](notebooks/plots/age_distribution.png)
 
 </td>
 <td width="50%">
 
 **Fare Distribution**  
-![Fare Distribution](plots/fare_distribution.png)
+![Fare Distribution](notebooks/plots/fare_distribution.png)
 
 </td>
 </tr>
@@ -157,20 +157,34 @@ The EDA notebook reveals key insights about survival patterns:
 <td width="50%">
 
 **Survival by Family Size**  
-![Family Size](plots/family_size.png)
+![Family Size](notebooks/plots/family_size.png)
 
 </td>
 <td width="50%">
 
 **Survival by Title**  
-![Survival by Title](plots/survival_by_title.png)
+![Survival by Title](notebooks/plots/survival_by_title.png)
+
+</td>
+</tr>
+
+<td width="50%">
+
+**Age vs Fare (Colored by Survival)**  
+![Age vs Fare](notebooks/plots/age_vs_fare.png)
+
+</td>
+<td width="50%">
+
+**Survival by Title**  
+![Survival by Title](notebooks/plots/survival_by_title.png)
 
 </td>
 </tr>
 </table>
 
 **Age vs Fare (Colored by Survival)**  
-![Age vs Fare](plots/age_vs_fare.png)
+![Age vs Fare](notebooks/plots/survival_overview.png)
 
 ---
 
