@@ -1,0 +1,4 @@
+PassengerId,Pclass,Name,Sex,Age,SibSp,Parch,Ticket,Fare,Cabin,Embarked,Prediction,Prediction_Label
+1001,1,"Brown, Mrs. Alice",female,25,0,0,PC 17599,71.28,C85,C,1,Survived
+1002,3,"Smith, Mr. Bob",male,30,1,0,A/5 21171,7.25,,S,0,Did not survive
+1003,2,"Johnson, Mr. Charlie",male,40,0,1,STON/O2. 3101282,13.0,,Q,0,Did not survive
